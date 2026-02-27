@@ -1,0 +1,8 @@
+KEYWORD         integer
+IDENTIFIER      x
+SEPARATOR       ;
+IDENTIFIER      x
+OPERATOR        =
+INTEGER         10
+SEPARATOR       ;
+EOF             EOF
