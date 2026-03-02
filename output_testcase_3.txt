@@ -1,0 +1,25 @@
+Token       Lexeme
+----------------------
+keyword         if
+separator       (
+identifier      value_1
+operator        >=
+identifier      value2
+separator       )
+identifier      result
+operator        =
+identifier      value_1
+operator        !=
+identifier      value2
+separator       ;
+keyword         if
+separator       (
+identifier      a
+operator        ==
+identifier      b
+separator       )
+keyword         write
+identifier      result
+separator       ;
+keyword         fi
+EOF             EOF

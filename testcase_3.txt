@@ -1,0 +1,6 @@
+if (value_1 >= value2)
+    result = value_1 != value2;
+    
+if (a == b)
+    write result;
+fi

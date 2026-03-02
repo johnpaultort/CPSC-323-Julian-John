@@ -1,4 +1,6 @@
-print ("Program started")
+print ("Welcome to LEXER")
+
+import sys
 
 #token
 class Token:
@@ -16,7 +18,7 @@ Keywords = {
 }
 
 #FSM for Identifier
-def indentifier(source, index):
+def indentifier_fsm(source, index):
     lexeme = ""
     
     lexeme += source[index]
@@ -29,12 +31,12 @@ def indentifier(source, index):
         index += 1
 
     if lexeme.lower() in Keywords:
-        return Token("KEYWORD", lexeme), index
+        return Token("keyword", lexeme), index
     
-    return Token("IDENTIFIER", lexeme), index
+    return Token("identifier", lexeme), index
 
 #FSM for INT or REAL
-def num_fsm(source, index):
+def number_fsm(source, index):
     lexeme = ""
     is_real = False
 
@@ -48,15 +50,16 @@ def num_fsm(source, index):
         index += 1
 
         if index >= len(source) or not source[index].isdigit():
-              return Token("INVALID", lexeme), index
+              return Token("invalid", lexeme), index
+        
         while index < len(source) and source[index].isdigit():
               lexeme += source[index]
               index += 1
 
     if is_real:
-        return Token("REAL", lexeme), index
+        return Token("real", lexeme), index
     else: 
-        return Token("INTEGER", lexeme), index
+        return Token("integer", lexeme), index
     
 #Lexer
 def lexer(source):
@@ -64,7 +67,6 @@ def lexer(source):
     index = 0
 
     while index < len(source):
-
         char = source[index]
 
         if char.isspace():
@@ -73,38 +75,45 @@ def lexer(source):
 
         if char == "/" and index + 1 < len(source) and source[index + 1] == "*":
             index += 2
-            while index < len(source) - 1:
+            while index + 1 < len(source):
                 if source[index] == "*" and source[index + 1] == "/":
                     index += 2
                     break
                 index += 1
-                continue
+            continue
         
+        if index + 1 < len(source):
+            two_char = source[index:index+2]
+            if two_char in ["<=", ">=", "==", "!="]:
+                tokens.append(Token("operator", two_char))
+                index += 2
+                continue
+
         #Keyword Checker
         if char.isalpha():
-            token, index = indentifier(source, index)
+            token, index = indentifier_fsm(source, index)
             tokens.append(token)
             continue
     
         #int or real
         if char.isdigit():
-            token, index = num_fsm(source, index)
+            token, index = number_fsm(source, index)
             tokens.append(token)
             continue
     
         #operators
         if char in "+-*/=<>" :
-            tokens.append(Token("OPERATOR", char))
+            tokens.append(Token("operator", char))
             index += 1
             continue
     
         #seperator
         if char in "();,{}" :
-            tokens.append(Token("SEPARATOR", char))
+            tokens.append(Token("separator", char))
             index += 1
             continue
         
-        tokens.append(Token("UNKNOWN", char))
+        tokens.append(Token("unknown", char))
         index += 1
 
     tokens.append(Token("EOF", "EOF"))
@@ -112,21 +121,31 @@ def lexer(source):
 
 # RUN
 def main():
-    input_file = "input.txt"
-    output_file = "output.txt"
 
-    with open(input_file, "r") as f:
-        source = f.read()
+    if len(sys.argv) < 2:
+        print("Usage: python3 rat26s_lexer.py <inputfile>")
+        return
+    
+    input_file = sys.argv[1]
+    output_file = "output_" + input_file
+
+    try:
+        with open(input_file, "r") as f:
+            source = f.read()
+    except FileNotFoundError:
+        print(f"Error: {input_file} not found.")
+        return
 
     tokens = lexer(source)
 
-    with open(output_file, "w") as out: 
-        for token in tokens: 
+    with open(output_file, "w") as out:
+        out.write("Token       Lexeme\n")
+        out.write("----------------------\n")
+        for token in tokens:
             out.write(str(token) + "\n")
 
-    print("Lexical analysis complete.")
-    print("Output written to output.txt")
+    print("Lexer Complete.")
+    print(f"Output written to {output_file}")
 
 if __name__ == "__main__":
-    main() 
-
+    main()    

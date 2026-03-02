@@ -1,0 +1,26 @@
+Token       Lexeme
+----------------------
+keyword         integer
+identifier      x
+separator       ;
+identifier      x
+operator        =
+integer         600
+separator       ;
+identifier      y
+operator        =
+real            67.89
+separator       ;
+identifier      z
+operator        =
+integer         10
+operator        +
+integer         6
+operator        *
+integer         7
+separator       ;
+identifier      a
+operator        =
+invalid         12.
+separator       ;
+EOF             EOF
