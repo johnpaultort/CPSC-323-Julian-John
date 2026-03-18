@@ -13,7 +13,8 @@ class Token:
 
 #keywords
 Keywords = {
-    "integer", "if", "otherwise", "fi",
+    "integer", "boolean", "real", "true", "false",
+    "if", "otherwise", "fi",
     "while", "return", "read", "write"
 }
 
@@ -84,7 +85,7 @@ def lexer(source):
         
         if index + 1 < len(source):
             two_char = source[index:index+2]
-            if two_char in ["<=", ">=", "==", "!="]:
+            if two_char in ["<=", ">=", "==", "!=","=>"]:
                 tokens.append(Token("operator", two_char))
                 index += 2
                 continue
@@ -108,7 +109,7 @@ def lexer(source):
             continue
     
         #seperator
-        if char in "();,{}" :
+        if char in "();,{}@" :
             tokens.append(Token("separator", char))
             index += 1
             continue
