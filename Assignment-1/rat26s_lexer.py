@@ -19,7 +19,7 @@ Keywords = {
 }
 
 #FSM for Identifier
-def indentifier_fsm(source, index):
+def indentifier_fsm(source, index): # FSM to handle 'words'
     lexeme = ""
     
     lexeme += source[index]
@@ -31,13 +31,13 @@ def indentifier_fsm(source, index):
         lexeme += source[index]
         index += 1
 
-    if lexeme.lower() in Keywords:
+    if lexeme.lower() in Keywords: # Checks if the result is a keyword, if so return keyword
         return Token("keyword", lexeme), index
     
-    return Token("identifier", lexeme), index
+    return Token("identifier", lexeme), index # Else, return identifier
 
 #FSM for INT or REAL
-def number_fsm(source, index):
+def number_fsm(source, index): # FSM to handle numbers
     lexeme = ""
     is_real = False
 
@@ -45,12 +45,12 @@ def number_fsm(source, index):
         lexeme += source[index]
         index += 1
 
-    if index < len(source) and source[index] == ".":
+    if index < len(source) and source[index] == ".": # Check for '.' which indicates when to switch to number mode
         is_real = True
         lexeme += "."
         index += 1
 
-        if index >= len(source) or not source[index].isdigit():
+        if index >= len(source) or not source[index].isdigit(): # Throws 'invalid' if there is no '.'
               return Token("invalid", lexeme), index
         
         while index < len(source) and source[index].isdigit():
