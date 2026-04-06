@@ -4,6 +4,10 @@ tokens = []
 index = 0
 current_token = None
 print_switch = True # turn on/off production printing
+output_file = None
+
+def write(line):
+    output_file.write(line + "\n")
 
 def next_token():
     global index, current_token
@@ -16,7 +20,8 @@ def next_token():
 # Helper Functions
 
 def error(expected):
-    print(f"Syntax Error: Expected {expected}, got Token: {current_token.token_type}, Lexeme: '{current_token.lexeme}'")
+    write(f"Syntax Error: Expected {expected}, got Token: {current_token.token_type}, Lexeme: '{current_token.lexeme}'")
+    output_file.close()
     exit(1)
 
 def match(expected_type=None, expected_lexeme=None):
@@ -25,7 +30,7 @@ def match(expected_type=None, expected_lexeme=None):
     if current_token.token_type == "unknown":
         error("valid token")
 
-    print(f"Token: {current_token.token_type:<12} Lexeme: {current_token.lexeme}")
+    write(f"Token: {current_token.token_type:<12} Lexeme: {current_token.lexeme}")
 
     if expected_type and current_token.token_type != expected_type:
         error(expected_type)
@@ -37,14 +42,21 @@ def match(expected_type=None, expected_lexeme=None):
 
 # Grammar Rules
 
+def StatementList():
+    if print_switch:
+        write("<StatementList> -> <Statement> <StatementList> | <Epsilon>")
+    
+    while current_token.token_type != "EOF":
+        Statement()
+
 def Statement():
     if print_switch:
-        print("<Statement> -> <Assign>")
-    Assign()
+        write("<Statement> -> <Assign>")
+        Assign()
 
 def Assign():
     if print_switch:
-        print("<Assign> -> <Identifier> = <Expression> ;")
+        write("<Assign> -> <Identifier> = <Expression> ;")
 
     if current_token.token_type == "identifier":
         match("identifier")
@@ -56,54 +68,56 @@ def Assign():
 
 def Expression():
     if print_switch:
-        print("<Expression> -> <Term> <Expression Prime>")
+        write("<Expression> -> <Term> <Expression Prime>")
     Term()
     ExpressionPrime()
 
 def ExpressionPrime():
     if current_token.lexeme in ["+", "-"]:
         if print_switch:
-            print("<Expression Prime> -> + | - <Term> <Expression Prime>")
+            write("<Expression Prime> -> + <Term> <Expression Prime> | - <Term> <Expression Prime>")
+
         op = current_token.lexeme
         match ("operator", op)
         Term()
         ExpressionPrime()
     else: 
         if print_switch:
-            print("<Expression Prime> -> Epsilon")
+            write("<Expression Prime> -> Epsilon")
 
 def Term():
     if print_switch:
-        print("<Term> -> <Factor> <Term Prime>")
+        write("<Term> -> <Factor> <Term Prime>")
     Factor()
     TermPrime()
 
 def TermPrime():
     if current_token.lexeme in ["*", "/"]:
         if print_switch:
-            print("<Term Prime> -> * | / <Factor> <Term Prime>")
+            write("<Term Prime> -> * | / <Factor> <Term Prime>")
+
         op = current_token.lexeme
         match("operator", op)
         Factor()
         TermPrime()
     else:
         if print_switch:
-            print("<Term Prime> -> Epsilon")
+            write("<Term Prime> -> Epsilon")
 
 def Factor():
     if current_token.token_type == "identifier":
         if print_switch:
-            print("<Factor> -> <Identifier>")
+            write("<Factor> -> <Identifier>")
         match("identifier")
     
     elif current_token.token_type in ["integer", "real"]:
         if print_switch:
-            print("<Factor> -> <Number>")
+            write("<Factor> -> <Number>")
         match(current_token.token_type)
     
     elif current_token.lexeme == "(":
         if print_switch:
-            print("<Factor> -> ( <Expression> )")
+            write("<Factor> -> ( <Expression> )")
         match("separator", "(")
         Expression()
         match("separator", ")")
@@ -111,19 +125,13 @@ def Factor():
     else:
         error("identifier, number, or (")
 
-def StatementList():
-    if print_switch:
-        print("<StatementList> -> <Statement> <StatementList> | Epsilon")
-
-    while current_token.token_type != "EOF":
-        Statement()
-
 # Main
 
 def main():
-    global tokens
+    global tokens, output_file
 
     input_file = input("Enter input file: ")
+    output_name = "output_" + input_file
 
     try:
         with open(input_file, "r") as f:
@@ -134,13 +142,18 @@ def main():
 
     tokens = lexer(source)
 
+    output_file = open(output_name, "w")
+
     next_token()
     StatementList()
 
     if current_token.token_type != "EOF":
         error("EOF")
     
-    print("\nParsing Complete - No Syntax Errors!")
+    write("\nParsing Complete - No Syntax Errors!")
+    output_file.close()
+
+    print(f"Output written to {output_name}")
 
 if __name__=="__main__":
     main()
