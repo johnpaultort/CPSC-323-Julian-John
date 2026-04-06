@@ -1,0 +1,31 @@
+<StatementList> -> <Statement> <StatementList> | <Epsilon>
+<Statement> -> <Assign>
+<Assign> -> <Identifier> = <Expression> ;
+Token: identifier   Lexeme: a
+Token: operator     Lexeme: =
+<Expression> -> <Term> <Expression Prime>
+<Term> -> <Factor> <Term Prime>
+<Factor> -> ( <Expression> )
+Token: separator    Lexeme: (
+<Expression> -> <Term> <Expression Prime>
+<Term> -> <Factor> <Term Prime>
+<Factor> -> <Identifier>
+Token: identifier   Lexeme: b
+<Term Prime> -> Epsilon
+<Expression Prime> -> + <Term> <Expression Prime> | - <Term> <Expression Prime>
+Token: operator     Lexeme: +
+<Term> -> <Factor> <Term Prime>
+<Factor> -> <Identifier>
+Token: identifier   Lexeme: c
+<Term Prime> -> Epsilon
+<Expression Prime> -> Epsilon
+Token: separator    Lexeme: )
+<Term Prime> -> * | / <Factor> <Term Prime>
+Token: operator     Lexeme: *
+<Factor> -> <Identifier>
+Token: identifier   Lexeme: d
+<Term Prime> -> Epsilon
+<Expression Prime> -> Epsilon
+Token: separator    Lexeme: ;
+
+Parsing Complete - No Syntax Errors!
