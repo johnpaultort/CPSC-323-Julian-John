@@ -6,7 +6,7 @@ current_token = None
 print_switch = True # turn on/off production printing
 
 def next_token():
-    global index, current_tokens
+    global index, current_token
     if index < len(tokens):
         current_token = tokens[index]
         index += 1
@@ -16,11 +16,14 @@ def next_token():
 # Helper Functions
 
 def error(expected):
-    print(f"Syntax Error: Expected {expected}, got '{current_token.lexeme}'")
+    print(f"Syntax Error: Expected {expected}, got Token: {current_token.token_type}, Lexeme: '{current_token.lexeme}'")
     exit(1)
 
 def match(expected_type=None, expected_lexeme=None):
     global current_token
+    
+    if current_token.token_type == "unknown":
+        error("valid token")
 
     print(f"Token: {current_token.token_type:<12} Lexeme: {current_token.lexeme}")
 
@@ -47,7 +50,7 @@ def Assign():
         match("identifier")
         match("operator", "=")
         Expression()
-        match("seperator", ";")
+        match("separator", ";")
     else:
         error("identifier")
 
@@ -58,10 +61,11 @@ def Expression():
     ExpressionPrime()
 
 def ExpressionPrime():
-    if current_token.lexeme == "+":
+    if current_token.lexeme in ["+", "-"]:
         if print_switch:
-            print("<Expression Prime> -> + <Term> <Expression Prime>")
-        match ("operator", "+")
+            print("<Expression Prime> -> + | - <Term> <Expression Prime>")
+        op = current_token.lexeme
+        match ("operator", op)
         Term()
         ExpressionPrime()
     else: 
@@ -75,10 +79,11 @@ def Term():
     TermPrime()
 
 def TermPrime():
-    if current_token.lexeme == "*":
+    if current_token.lexeme in ["*", "/"]:
         if print_switch:
-            print("<Term Prime> -> * <Factor> <Term Prime>")
-        match("operator", "*")
+            print("<Term Prime> -> * | / <Factor> <Term Prime>")
+        op = current_token.lexeme
+        match("operator", op)
         Factor()
         TermPrime()
     else:
@@ -95,9 +100,23 @@ def Factor():
         if print_switch:
             print("<Factor> -> <Number>")
         match(current_token.token_type)
+    
+    elif current_token.lexeme == "(":
+        if print_switch:
+            print("<Factor> -> ( <Expression> )")
+        match("separator", "(")
+        Expression()
+        match("separator", ")")
 
     else:
-        error("identifier or number")
+        error("identifier, number, or (")
+
+def StatementList():
+    if print_switch:
+        print("<StatementList> -> <Statement> <StatementList> | Epsilon")
+
+    while current_token.token_type != "EOF":
+        Statement()
 
 # Main
 
@@ -116,8 +135,7 @@ def main():
     tokens = lexer(source)
 
     next_token()
-
-    Statement()
+    StatementList()
 
     if current_token.token_type != "EOF":
         error("EOF")
