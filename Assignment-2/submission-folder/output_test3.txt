@@ -1,0 +1,23 @@
+<StatementList> -> <Statement> <StatementList> | <Epsilon>
+<Statement> -> <Assign>
+<Assign> -> <Identifier> = <Expression> ;
+Token: identifier   Lexeme: a
+Token: operator     Lexeme: =
+<Expression> -> <Term> <Expression Prime>
+<Term> -> <Factor> <Term Prime>
+<Factor> -> <Identifier>
+Token: identifier   Lexeme: b
+<Term Prime> -> Epsilon
+<Expression Prime> -> + <Term> <Expression Prime> | - <Term> <Expression Prime>
+Token: operator     Lexeme: +
+<Term> -> <Factor> <Term Prime>
+<Factor> -> <Identifier>
+Token: identifier   Lexeme: c
+<Term Prime> -> * | / <Factor> <Term Prime>
+Token: operator     Lexeme: *
+<Factor> -> <Identifier>
+Token: identifier   Lexeme: d
+<Term Prime> -> Epsilon
+<Expression Prime> -> Epsilon
+Token: EOF          Lexeme: EOF
+Syntax Error: Expected separator, got Token: EOF, Lexeme: 'EOF'
