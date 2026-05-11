@@ -1,0 +1,6 @@
+@
+@
+boolean flag;
+@
+flag = flag + flag;
+@

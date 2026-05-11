@@ -1,0 +1,11 @@
+@
+@
+boolean flag;
+integer x;
+@
+flag = true;
+x = 5;
+if (x > 3)
+    flag = false;
+fi
+@

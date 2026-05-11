@@ -1,0 +1,13 @@
+@
+@
+integer a, b, result;
+@
+read (a);
+read (b);
+if (a > b)
+    result = a;
+otherwise
+    result = b;
+fi
+write (result);
+@

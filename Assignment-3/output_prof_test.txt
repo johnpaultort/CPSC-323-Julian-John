@@ -1,0 +1,182 @@
+------------------------------------------------------------
+  Rat26S Compiler - Assignment 3 Output
+------------------------------------------------------------
+   <Rat26s> -> @ <Opt Declaration List> @ <Statement List> @
+Token: separator    Lexeme: @
+Token: separator    Lexeme: @
+   <Opt Declaration List> -> <Declaration List> | <Empty>
+   <Declaration List> -> <Declaration> ; | <Declaration> ; <Declaration List>
+   <Declaration> -> <Qualifier> <IDs>
+   <Qualifier> -> integer | boolean
+Token: keyword      Lexeme: integer
+   <IDs> -> <Identifier> | <Identifier>, <IDs>
+Token: identifier   Lexeme: i
+Token: separator    Lexeme: ,
+   <IDs> -> <Identifier> | <Identifier>, <IDs>
+Token: identifier   Lexeme: max
+Token: separator    Lexeme: ,
+   <IDs> -> <Identifier> | <Identifier>, <IDs>
+Token: identifier   Lexeme: sum
+Token: separator    Lexeme: ;
+Token: separator    Lexeme: @
+   <Statement List> -> <Statement> | <Statement> <Statement List>
+   <Statement> -> <Compound> | <Assign> | <If> | <Return> | <Print> | <Scan> | <While>
+   <Assign> -> <Identifier> = <Expression> ;
+Token: identifier   Lexeme: sum
+Token: operator     Lexeme: =
+   <Expression> -> <Term> <Expression Prime>
+   <Term> -> <Factor> <Term Prime>
+   <Factor> -> <Primary>
+   <Primary> -> <Integer>
+Token: integer      Lexeme: 0
+   <Term Prime> -> <Empty>
+   <Expression Prime> -> <Empty>
+Token: separator    Lexeme: ;
+   <Statement> -> <Compound> | <Assign> | <If> | <Return> | <Print> | <Scan> | <While>
+   <Assign> -> <Identifier> = <Expression> ;
+Token: identifier   Lexeme: i
+Token: operator     Lexeme: =
+   <Expression> -> <Term> <Expression Prime>
+   <Term> -> <Factor> <Term Prime>
+   <Factor> -> <Primary>
+   <Primary> -> <Integer>
+Token: integer      Lexeme: 1
+   <Term Prime> -> <Empty>
+   <Expression Prime> -> <Empty>
+Token: separator    Lexeme: ;
+   <Statement> -> <Compound> | <Assign> | <If> | <Return> | <Print> | <Scan> | <While>
+   <Scan> -> read ( <IDs> ) ;
+Token: keyword      Lexeme: read
+Token: separator    Lexeme: (
+Token: identifier   Lexeme: max
+Token: separator    Lexeme: )
+Token: separator    Lexeme: ;
+   <Statement> -> <Compound> | <Assign> | <If> | <Return> | <Print> | <Scan> | <While>
+   <While> -> while ( <Condition> ) <Statement>
+Token: keyword      Lexeme: while
+Token: separator    Lexeme: (
+   <Condition> -> <Expression> <Relop> <Expression>
+   <Expression> -> <Term> <Expression Prime>
+   <Term> -> <Factor> <Term Prime>
+   <Factor> -> <Primary>
+Token: identifier   Lexeme: i
+   <Primary> -> <Identifier>
+   <Term Prime> -> <Empty>
+   <Expression Prime> -> <Empty>
+   <Relop> -> == | != | > | < | <= | =>
+Token: operator     Lexeme: <
+   <Expression> -> <Term> <Expression Prime>
+   <Term> -> <Factor> <Term Prime>
+   <Factor> -> <Primary>
+Token: identifier   Lexeme: max
+   <Primary> -> <Identifier>
+   <Term Prime> -> <Empty>
+   <Expression Prime> -> <Empty>
+Token: separator    Lexeme: )
+   <Statement> -> <Compound> | <Assign> | <If> | <Return> | <Print> | <Scan> | <While>
+   <Compound> -> { <Statement List> }
+Token: separator    Lexeme: {
+   <Statement List> -> <Statement> | <Statement> <Statement List>
+   <Statement> -> <Compound> | <Assign> | <If> | <Return> | <Print> | <Scan> | <While>
+   <Assign> -> <Identifier> = <Expression> ;
+Token: identifier   Lexeme: sum
+Token: operator     Lexeme: =
+   <Expression> -> <Term> <Expression Prime>
+   <Term> -> <Factor> <Term Prime>
+   <Factor> -> <Primary>
+Token: identifier   Lexeme: sum
+   <Primary> -> <Identifier>
+   <Term Prime> -> <Empty>
+   <Expression Prime> -> + <Term> <Expression Prime>
+Token: operator     Lexeme: +
+   <Term> -> <Factor> <Term Prime>
+   <Factor> -> <Primary>
+Token: identifier   Lexeme: i
+   <Primary> -> <Identifier>
+   <Term Prime> -> <Empty>
+   <Expression Prime> -> <Empty>
+Token: separator    Lexeme: ;
+   <Statement> -> <Compound> | <Assign> | <If> | <Return> | <Print> | <Scan> | <While>
+   <Assign> -> <Identifier> = <Expression> ;
+Token: identifier   Lexeme: i
+Token: operator     Lexeme: =
+   <Expression> -> <Term> <Expression Prime>
+   <Term> -> <Factor> <Term Prime>
+   <Factor> -> <Primary>
+Token: identifier   Lexeme: i
+   <Primary> -> <Identifier>
+   <Term Prime> -> <Empty>
+   <Expression Prime> -> + <Term> <Expression Prime>
+Token: operator     Lexeme: +
+   <Term> -> <Factor> <Term Prime>
+   <Factor> -> <Primary>
+   <Primary> -> <Integer>
+Token: integer      Lexeme: 1
+   <Term Prime> -> <Empty>
+   <Expression Prime> -> <Empty>
+Token: separator    Lexeme: ;
+Token: separator    Lexeme: }
+   <Statement> -> <Compound> | <Assign> | <If> | <Return> | <Print> | <Scan> | <While>
+   <Print> -> write ( <Expression> ) ;
+Token: keyword      Lexeme: write
+Token: separator    Lexeme: (
+   <Expression> -> <Term> <Expression Prime>
+   <Term> -> <Factor> <Term Prime>
+   <Factor> -> <Primary>
+Token: identifier   Lexeme: sum
+   <Primary> -> <Identifier>
+   <Term Prime> -> <Empty>
+   <Expression Prime> -> + <Term> <Expression Prime>
+Token: operator     Lexeme: +
+   <Term> -> <Factor> <Term Prime>
+   <Factor> -> <Primary>
+Token: identifier   Lexeme: max
+   <Primary> -> <Identifier>
+   <Term Prime> -> <Empty>
+   <Expression Prime> -> <Empty>
+Token: separator    Lexeme: )
+Token: separator    Lexeme: ;
+Token: separator    Lexeme: @
+
+------------------------------------------------------------
+  Parsing Complete - No Syntax Errors!
+------------------------------------------------------------
+
+----------------------------------------
+  Assembly Code Listing
+----------------------------------------
+  1      PUSHI      0
+  2      POPM       10002
+  3      PUSHI      1
+  4      POPM       10000
+  5      SIN        
+  6      POPM       10001
+  7      LABEL      
+  8      PUSHM      10000
+  9      PUSHM      10001
+  10     LES        
+  11     JMPZ       21
+  12     PUSHM      10002
+  13     PUSHM      10000
+  14     A          
+  15     POPM       10002
+  16     PUSHM      10000
+  17     PUSHI      1
+  18     A          
+  19     POPM       10000
+  20     JMP        7
+  21     PUSHM      10002
+  22     PUSHM      10001
+  23     A          
+  24     SOUT       
+----------------------------------------
+
+--------------------------------------------------
+  Symbol Table
+--------------------------------------------------
+  Identifier           Memory Address       Type
+--------------------------------------------------
+  i                    10000                integer
+  max                  10001                integer
+  sum                  10002                integer
+--------------------------------------------------

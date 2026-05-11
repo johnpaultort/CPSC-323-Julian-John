@@ -1,0 +1,7 @@
+@
+@
+boolean flag;
+integer x;
+@
+x = flag + 5;
+@

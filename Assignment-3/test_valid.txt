@@ -1,0 +1,14 @@
+@
+@
+integer x, y;
+boolean flag;
+@
+read(x);
+y = x + 5;
+flag = true;
+if (x > y)
+    write(x);
+otherwise
+    write(y);
+fi
+@

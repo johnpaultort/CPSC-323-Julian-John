@@ -1,0 +1,34 @@
+------------------------------------------------------------
+  Rat26S Compiler - Assignment 3 Output
+------------------------------------------------------------
+   <Rat26s> -> @ <Opt Declaration List> @ <Statement List> @
+Token: separator    Lexeme: @
+Token: separator    Lexeme: @
+   <Opt Declaration List> -> <Declaration List> | <Empty>
+   <Declaration List> -> <Declaration> ; | <Declaration> ; <Declaration List>
+   <Declaration> -> <Qualifier> <IDs>
+   <Qualifier> -> integer | boolean
+Token: keyword      Lexeme: boolean
+   <IDs> -> <Identifier> | <Identifier>, <IDs>
+Token: identifier   Lexeme: flag
+Token: separator    Lexeme: ;
+   <Declaration List> -> <Declaration> ; | <Declaration> ; <Declaration List>
+   <Declaration> -> <Qualifier> <IDs>
+   <Qualifier> -> integer | boolean
+Token: keyword      Lexeme: integer
+   <IDs> -> <Identifier> | <Identifier>, <IDs>
+Token: identifier   Lexeme: x
+Token: separator    Lexeme: ;
+Token: separator    Lexeme: @
+   <Statement List> -> <Statement> | <Statement> <Statement List>
+   <Statement> -> <Compound> | <Assign> | <If> | <Return> | <Print> | <Scan> | <While>
+   <Assign> -> <Identifier> = <Expression> ;
+Token: identifier   Lexeme: x
+Token: operator     Lexeme: =
+   <Expression> -> <Term> <Expression Prime>
+   <Term> -> <Factor> <Term Prime>
+   <Factor> -> <Primary>
+Token: identifier   Lexeme: flag
+   <Primary> -> <Identifier>
+   <Term Prime> -> <Empty>
+Semantic Error: Arithmetic operations are not allowed on boolean types.

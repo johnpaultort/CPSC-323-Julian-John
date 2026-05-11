@@ -1,0 +1,11 @@
+@
+@
+integer x;
+@
+x = 0;
+while (x < 5)
+{
+    write(x);
+    x = x + 1;
+}
+@
